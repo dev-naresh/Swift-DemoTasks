@@ -14,7 +14,7 @@ class Window: NSWindow {
 //        self.init(contentViewController: TextViewController())
 //        self.init(contentViewController: FeedbackViewController())
 //        self.init(contentViewController: StackViewController())
-        self.init(contentViewController: StackViewController())
+        self.init(contentViewController: TableViewController())
         
     }
 }

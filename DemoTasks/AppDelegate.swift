@@ -11,10 +11,12 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet var window: NSWindow!
-
+    
+    let userController = UserController()
     let windowController = WindowController()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        userController.getUsers()
         windowController.showWindow(nil)
     }
 
