@@ -12,9 +12,10 @@ class WindowController: NSWindowController {
         self.init(window: Window())
         window?.styleMask = [.closable, .resizable, .miniaturizable, . titled]
         window?.title = "Demo Task"
-//        window?.aspectRatio =  NSSize(width: 800, height: 500)
         window?.aspectRatio =  NSSize(width: 750, height: 500)
-        window?.minSize = NSSize(width: 260, height: 175)
+        window?.minSize = NSSize(width: 750, height: 500)
+//        window?.aspectRatio =  NSSize(width: 800, height: 500)
+//        window?.minSize = NSSize(width: 260, height: 175)
 //        window?.backgroundColor = .white
     }
 }

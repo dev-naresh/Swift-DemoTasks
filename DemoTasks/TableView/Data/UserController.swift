@@ -13,6 +13,7 @@ class UserController: URLSessionDataTask, URLSessionDataDelegate {
     lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: opQueue)
     var downloadObj: URLSessionDownloadTask?
     let apiUrl = "https://api.jsonbin.io/v3/b/64119e81ebd26539d08efdde"
+    var user = [UserModel.User]()
     
     func getUsers() {
         guard let url = URL(string: self.apiUrl) else {
@@ -37,6 +38,7 @@ class UserController: URLSessionDataTask, URLSessionDataDelegate {
                 if let data = data {
                     do {
                         let testObj = try JSONDecoder().decode(UserModel.self, from: data)
+                        self.user = testObj.record.users
                         for i in testObj.record.users {
                             let downloadImg = DownloadImage(i.url, "Image/\(i.name).jpg")
                             downloadImg.downloader()
@@ -64,7 +66,6 @@ class DownloadImage: NSObject, URLSessionDownloadDelegate {
     
     init(_ url: String, _ fileUrl: String) {
         self.apiUrl = url
-        print(url)
         self.filePathEnd = fileUrl
     }
     

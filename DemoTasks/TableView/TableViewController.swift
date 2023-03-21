@@ -8,27 +8,31 @@
 import Cocoa
 
 class TableViewController: NSViewController {
-    var mainView = TableView(frame: NSRect(x: 0, y: 0, width: 300, height: 300))
+    var mainView = TableView(frame: NSRect(x: 0, y: 0, width: 750, height: 500))
     
     override func loadView() {
         view = mainView
         mainView.wantsLayer = true
-        mainView.layer?.backgroundColor = .black
+        mainView.layer?.backgroundColor = .init(gray: 0, alpha: 1)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-//        mainView.tableView.frame = NSRect(x: 0, y: 0, width: 200, height: mainView.bounds.height)
-        mainView.scrollView.frame = NSRect(x: 0, y: 0, width: 300, height: mainView.bounds.height)
-//        mainView.scrollView.documentView =
-        
-        mainView.scrollView.documentView = mainView.tableView
+        mainView.mainTableView.dataSource = mainView
+        mainView.mainTableView.delegate = mainView
+        mainView.scrollView.documentView = mainView.mainTableView
         mainView.addSubview(mainView.scrollView)
+        self.mainView.mainTableView.reloadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            self.mainView.mainTableView.reloadData()
+        }
         
         NSLayoutConstraint.activate([
-            
+            mainView.scrollView.heightAnchor.constraint(equalTo: mainView.heightAnchor),
+            mainView.scrollView.widthAnchor.constraint(equalToConstant: 400),
         ])
     }
-    
 }
