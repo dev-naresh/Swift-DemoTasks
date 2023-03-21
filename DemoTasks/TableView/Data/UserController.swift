@@ -29,7 +29,6 @@ class UserController: URLSessionDataTask, URLSessionDataDelegate {
         let dispGroup = DispatchGroup()
         let session = URLSession.shared.dataTask(with: req) {
             data, response, error in
-//            print(Thread.current)
             
             dispGroup.enter()
             if let error = error {
@@ -39,10 +38,6 @@ class UserController: URLSessionDataTask, URLSessionDataDelegate {
                     do {
                         let testObj = try JSONDecoder().decode(UserModel.self, from: data)
                         self.user = testObj.record.users
-                        for i in testObj.record.users {
-                            let downloadImg = DownloadImage(i.url, "Image/\(i.name).jpg")
-                            downloadImg.downloader()
-                        }
                         dispGroup.leave()
                     } catch {
                         print(error)
@@ -59,28 +54,44 @@ class DownloadImage: NSObject, URLSessionDownloadDelegate {
     let opQueue = OperationQueue()
     lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: self.opQueue)
     var downloadObj: URLSessionDownloadTask?
-    var filePathEnd: String
+    var filePathEnd: String?
     var resumeData: Data?
-    var apiUrl: String
+    var apiUrl: String?
     var filePath: URL?
+    var fileEndPathDict = [URL: URL]()
     
-    init(_ url: String, _ fileUrl: String) {
-        self.apiUrl = url
-        self.filePathEnd = fileUrl
+    override init() {
+        opQueue.maxConcurrentOperationCount = 5
     }
     
     //DownloadTask processed in the background thread.
-    func downloader() {
-            self.filePath = try! FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(String(self.filePathEnd))
+    func downloader(_ url: String, _ fileUrl: String, _ completion: @escaping (NSImage, URL) -> Void ) {
+        self.apiUrl = url
+        self.filePathEnd = fileUrl
+        self.filePath = try! FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(String(self.filePathEnd!))
+    
+        guard let url = URL(string: apiUrl!) else {
+            print("Invalid URL...")
+            return
+        }
+        fileEndPathDict[url] = filePath!
         
-            guard let url = URL(string: self.apiUrl) else {
-                print("Invalid URL...")
-                return
+        if let image = NSImage(contentsOfFile: "/Users/naresh-pt6259/Downloads/\(filePathEnd!)") {
+            completion(image, url)
+        } else {
+            self.downloadObj = self.session.downloadTask(with: url) { [ self ]
+                location, response, error in
+                if let error = error {
+                    completion(NSImage(systemSymbolName: "person.fill", accessibilityDescription: nil)!, url)
+                } else {
+                    try? FileManager.default.removeItem(at: self.filePath!)
+                    try? FileManager.default.moveItem(at: location!, to: self.fileEndPathDict[(response?.url)!]!)
+                    completion(NSImage(byReferencing: self.fileEndPathDict[response!.url!]!), response!.url!)
+                    try? FileManager.default.removeItem(at: self.filePath!)
+                }
             }
-            
-//            print(Thread.isMainThread)
-            self.downloadObj = self.session.downloadTask(with: url)
-            self.downloadObj?.resume()
+            downloadObj?.resume()
+        }
     }
     
     //Pause the current downloadTask.

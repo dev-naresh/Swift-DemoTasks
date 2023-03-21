@@ -24,9 +24,8 @@ class TableViewController: NSViewController {
         mainView.mainTableView.delegate = mainView
         mainView.scrollView.documentView = mainView.mainTableView
         mainView.addSubview(mainView.scrollView)
-        self.mainView.mainTableView.reloadData()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
             self.mainView.mainTableView.reloadData()
         }
         

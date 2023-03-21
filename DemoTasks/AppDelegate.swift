@@ -16,9 +16,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let windowController = WindowController()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let viewController = windowController.window?.contentViewController as? TableViewController
-        userController.getUsers()
-        viewController?.mainView.userController = userController
+//        let viewController = windowController.window?.contentViewController as? TableViewController
+//        userController.getUsers()
+//        viewController?.mainView.userController = userController
         windowController.showWindow(nil)
     }
 

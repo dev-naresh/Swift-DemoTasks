@@ -8,9 +8,10 @@
 import Cocoa
 
 class TableView: NSView, NSTableViewDataSource, NSTableViewDelegate {
-    var userController: UserController?
+    var userController: UserController? = UserController()
+    var downloadImage = DownloadImage()
+    var images = [String: NSImage]()
     var previousView: Int?
-    var rows = 0
     
     let cellGradient: CAGradientLayer = {
         let gradient = CAGradientLayer()
@@ -61,16 +62,26 @@ class TableView: NSView, NSTableViewDataSource, NSTableViewDelegate {
     
         return view
     }()
-
+    
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        userController?.getUsers()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         if let row = userController?.user.count {
-            rows = row + 1
+            return row + 1
+        } else {
+            return 1
         }
-        return rows
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -91,8 +102,22 @@ class TableView: NSView, NSTableViewDataSource, NSTableViewDelegate {
             var pending = 0
             
             user.todos.map{($0.status == "completed") ? (completed += 1) : (pending += 1)}
+            view?.source = user
             
             view?.profileImage.image = NSImage(contentsOfFile: "/Users/naresh-pt6259/Downloads/Image/\(user.name).jpg")
+            if let image = images[user.name]{
+                view?.profileImage.image = image
+            } else {
+                view?.profileImage.image = NSImage(systemSymbolName: "person.fill", accessibilityDescription: nil)
+                self.downloadImage.downloader(user.url, "Image/\(user.name).jpg") {
+                    image, resUrl in
+                    DispatchQueue.main.async {
+                        if resUrl == URL(string: (view?.source?.url)!) {
+                            view?.profileImage.image = image
+                        }
+                    }
+                }
+            }
             
             if row != tableView.selectedRow {
                 view?.userName.attributedStringValue = NSMutableAttributedString(string: "\(user.name)", attributes: [NSAttributedString.Key.foregroundColor: NSColor.white, NSAttributedString.Key.font: NSFont.systemFont(ofSize: 18, weight: .semibold)])
@@ -118,8 +143,6 @@ class TableView: NSView, NSTableViewDataSource, NSTableViewDelegate {
         if view == nil {
             view = CustomCellView(frame: NSRect(x: 0, y: 0, width: 300, height: 30))
             view?.identifier =  identifier
-        } else {
-            print("Reused")
         }
         return view
     }
@@ -246,9 +269,10 @@ class CustomLabelView : NSView{
     }
 }
 
-class CustomCellView: NSTableCellView {
+class CustomCellView: NSView {
     let completedView = CustomStatusView()
     let pendingView = CustomStatusView()
+    var source: UserModel.User?
     var userNameString = NSMutableAttributedString(string: "")
     
     let cellGradient: CAGradientLayer = {
