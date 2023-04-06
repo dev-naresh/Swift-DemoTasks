@@ -7,29 +7,30 @@
 
 import Foundation
 
-struct UserModel: Codable {
+class UserModel: Codable {
     var metadata: Metadata
     var record: Record
     
-    struct Metadata: Codable {
+    class Metadata: Codable {
         var createdAt: String
         var id: String
         var name: String
         var `private`: Bool
     }
     
-    struct Record: Codable {
+    class Record: Codable {
         var users: [User]
     }
     
-    struct User: Codable {
+    class User: Codable {
         var userId: Int
         var name: String
         var url: String
+        var description: String
         var todos: [ToDo]
     }
     
-    struct ToDo: Codable {
+    class ToDo: Codable {
         var todoId: Int
         var description: String
         var status: String

@@ -25,7 +25,10 @@ class TableViewController: NSViewController {
         mainView.scrollView.documentView = mainView.mainTableView
         mainView.addSubview(mainView.scrollView)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+        let trackArea = NSTrackingArea(rect: mainView.mainTableView.bounds, options: [.mouseEnteredAndExited, .activeInActiveApp], owner: mainView.mainTableView)
+        mainView.mainTableView.addTrackingArea(trackArea)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
             self.mainView.mainTableView.reloadData()
         }
         
@@ -34,4 +37,9 @@ class TableViewController: NSViewController {
             mainView.scrollView.widthAnchor.constraint(equalToConstant: 400),
         ])
     }
+    
+    
+//    override func viewWillDisappear() {
+//        mainView.downloadImage.removeImage(mainView.userController!.user)
+//    }
 }

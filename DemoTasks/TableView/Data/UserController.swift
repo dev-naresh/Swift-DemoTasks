@@ -14,6 +14,7 @@ class UserController: URLSessionDataTask, URLSessionDataDelegate {
     var downloadObj: URLSessionDownloadTask?
     let apiUrl = "https://api.jsonbin.io/v3/b/64119e81ebd26539d08efdde"
     var user = [UserModel.User]()
+    var record: UserModel.Record?
     
     func getUsers() {
         guard let url = URL(string: self.apiUrl) else {
@@ -38,6 +39,7 @@ class UserController: URLSessionDataTask, URLSessionDataDelegate {
                     do {
                         let testObj = try JSONDecoder().decode(UserModel.self, from: data)
                         self.user = testObj.record.users
+                        self.record = testObj.record
                         dispGroup.leave()
                     } catch {
                         print(error)
@@ -81,13 +83,15 @@ class DownloadImage: NSObject, URLSessionDownloadDelegate {
         } else {
             self.downloadObj = self.session.downloadTask(with: url) { [ self ]
                 location, response, error in
-                if let error = error {
+                if let _ = error {
                     completion(NSImage(systemSymbolName: "person.fill", accessibilityDescription: nil)!, url)
                 } else {
-                    try? FileManager.default.removeItem(at: self.filePath!)
-                    try? FileManager.default.moveItem(at: location!, to: self.fileEndPathDict[(response?.url)!]!)
-                    completion(NSImage(byReferencing: self.fileEndPathDict[response!.url!]!), response!.url!)
-                    try? FileManager.default.removeItem(at: self.filePath!)
+                    if let resUrl = response?.url, let filePath = filePath {
+                        try? FileManager.default.removeItem(at: filePath)
+                        try? FileManager.default.moveItem(at: location!, to: self.fileEndPathDict[(resUrl)]!)
+                        completion(NSImage(byReferencing: self.fileEndPathDict[resUrl]!), resUrl)
+//                        try? FileManager.default.removeItem(at: filePath)
+                    }
                 }
             }
             downloadObj?.resume()
@@ -130,6 +134,12 @@ class DownloadImage: NSObject, URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         let progress = Int(Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) * 100)
         print("Downloading: \(progress)%")
+    }
+    
+    func removeImage(_ user: [UserModel.User]) {
+        for user in user {
+            try? FileManager.default.removeItem(at: URL(string: "/Users/naresh-pt6259/Downloads/Image/\(user.name)")!)
+        }
     }
     
 }

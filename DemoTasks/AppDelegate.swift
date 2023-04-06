@@ -9,21 +9,16 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    @IBOutlet var window: NSWindow!
-    
-    let userController = UserController()
     let windowController = WindowController()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-//        let viewController = windowController.window?.contentViewController as? TableViewController
-//        userController.getUsers()
-//        viewController?.mainView.userController = userController
         windowController.showWindow(nil)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+         
+        
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

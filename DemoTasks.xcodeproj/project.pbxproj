@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3732438329AD141C008CF25B /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3732438229AD141C008CF25B /* ControlView.swift */; };
 		3732438529AD1441008CF25B /* ControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3732438429AD1441008CF25B /* ControlViewController.swift */; };
+		373E272929D55AE100FE4442 /* OutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373E272829D55AE100FE4442 /* OutlineView.swift */; };
+		373E272C29D55AFE00FE4442 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373E272A29D55AFE00FE4442 /* OutlineViewController.swift */; };
+		373E272D29D55AFE00FE4442 /* OutlineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 373E272B29D55AFE00FE4442 /* OutlineViewController.xib */; };
 		376B439B29C18EAD00F7A742 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376B439A29C18EAD00F7A742 /* TableViewController.swift */; };
 		376B439D29C18EC600F7A742 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376B439C29C18EC600F7A742 /* TableView.swift */; };
 		376B43A029C2EEDF00F7A742 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376B439F29C2EEDF00F7A742 /* UserModel.swift */; };
@@ -51,6 +54,9 @@
 /* Begin PBXFileReference section */
 		3732438229AD141C008CF25B /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		3732438429AD1441008CF25B /* ControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlViewController.swift; sourceTree = "<group>"; };
+		373E272829D55AE100FE4442 /* OutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineView.swift; sourceTree = "<group>"; };
+		373E272A29D55AFE00FE4442 /* OutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
+		373E272B29D55AFE00FE4442 /* OutlineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutlineViewController.xib; sourceTree = "<group>"; };
 		376B439A29C18EAD00F7A742 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		376B439C29C18EC600F7A742 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		376B439F29C2EEDF00F7A742 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -118,6 +124,16 @@
 			path = ControlView;
 			sourceTree = "<group>";
 		};
+		373E272729D55AAD00FE4442 /* OutlineView */ = {
+			isa = PBXGroup;
+			children = (
+				373E272829D55AE100FE4442 /* OutlineView.swift */,
+				373E272A29D55AFE00FE4442 /* OutlineViewController.swift */,
+				373E272B29D55AFE00FE4442 /* OutlineViewController.xib */,
+			);
+			path = OutlineView;
+			sourceTree = "<group>";
+		};
 		376B439929C18E7900F7A742 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +195,7 @@
 				3732438129AD13B7008CF25B /* ControlView */,
 				3792AC4629B85206005B6F86 /* StackVIew */,
 				376B439929C18E7900F7A742 /* TableView */,
+				373E272729D55AAD00FE4442 /* OutlineView */,
 				377E070329A8B89400C02763 /* MainMenu.xib */,
 				377E070629A8B89400C02763 /* DemoTasks.entitlements */,
 			);
@@ -344,6 +361,7 @@
 			files = (
 				377E070229A8B89400C02763 /* Assets.xcassets in Resources */,
 				377E070529A8B89400C02763 /* MainMenu.xib in Resources */,
+				373E272D29D55AFE00FE4442 /* OutlineViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,10 +391,12 @@
 				376B439B29C18EAD00F7A742 /* TableViewController.swift in Sources */,
 				3792AC4329B5EB9A005B6F86 /* FeedbackView.swift in Sources */,
 				3792AC4529B5EBAD005B6F86 /* FeedbackViewController.swift in Sources */,
+				373E272C29D55AFE00FE4442 /* OutlineViewController.swift in Sources */,
 				377E073329A8BAA700C02763 /* WindowController.swift in Sources */,
 				376B43A229C2EEF300F7A742 /* UserController.swift in Sources */,
 				377E072C29A8B91600C02763 /* ButtonViewController.swift in Sources */,
 				377E070029A8B89300C02763 /* AppDelegate.swift in Sources */,
+				373E272929D55AE100FE4442 /* OutlineView.swift in Sources */,
 				3732438329AD141C008CF25B /* ControlView.swift in Sources */,
 				377E073129A8BA7A00C02763 /* Window.swift in Sources */,
 				376B43A029C2EEDF00F7A742 /* UserModel.swift in Sources */,
